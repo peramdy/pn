@@ -1,6 +1,8 @@
 package com.peramdy.utils;
 
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 /**
  * Created by peramdy on 2017/7/20.
  */
@@ -29,4 +31,8 @@ public class Response {
     }
 
 
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
+    }
 }

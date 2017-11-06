@@ -48,4 +48,7 @@ public enum HttpCode {
     public String getMsg() {
         return msg;
     }
+
+
+
 }

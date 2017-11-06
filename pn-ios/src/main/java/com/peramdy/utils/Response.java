@@ -1,9 +1,13 @@
 package com.peramdy.utils;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import java.io.Serializable;
+
 /**
  * Created by peramdy on 2017/7/20.
  */
-public class Response {
+public class Response implements Serializable {
 
     private final int httpCode;
     private final String body;
@@ -35,11 +39,6 @@ public class Response {
 
     @Override
     public String toString() {
-        return "Response{" +
-                "httpCode=" + httpCode +
-                ", body='" + body + '\'' +
-                ", t=" + t +
-                ", status=" + status +
-                '}';
+        return ToStringBuilder.reflectionToString(this);
     }
 }

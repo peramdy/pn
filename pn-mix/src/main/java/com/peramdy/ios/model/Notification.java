@@ -32,6 +32,7 @@ package com.peramdy.ios.model;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
@@ -288,5 +289,11 @@ public class Notification {
             }
             return new Notification(payload, token, topic, collapseId, expiration, priority, uuid);
         }
+    }
+
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
     }
 }
