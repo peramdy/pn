@@ -1,7 +1,8 @@
-package com.peramdy.utils;
+package com.peramdy.net.utils;
 
 /**
- * Created by peramdy on 2017/7/20.
+ * @author peramdy
+ * @date 2017/7/20.
  */
 public enum HttpCode {
     OK(200, "OK"),
@@ -19,10 +20,7 @@ public enum HttpCode {
     SERVER_ERROR(500, "Internal Server Error"),
     SERVER_UNAVAILABLE(503, "Service Unavailable"),
 
-    EXCEPTION(-1,"EXCEPTION")
-    ;
-
-
+    EXCEPTION(-1, "EXCEPTION");
 
 
     private final int code;
@@ -35,8 +33,9 @@ public enum HttpCode {
 
     public static HttpCode getHttpCode(int code) {
         for (HttpCode httpCodes : HttpCode.values()) {
-            if (httpCodes.getCode() == code)
+            if (httpCodes.getCode() == code) {
                 return httpCodes;
+            }
         }
         return null;
     }
@@ -48,7 +47,6 @@ public enum HttpCode {
     public String getMsg() {
         return msg;
     }
-
 
 
 }

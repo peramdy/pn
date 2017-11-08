@@ -28,7 +28,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.peramdy.utils;
+package com.peramdy.net.utils;
 
 import java.nio.charset.StandardCharsets;
 import java.security.*;

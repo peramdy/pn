@@ -28,7 +28,7 @@ public class ApnsClientBuilder {
     private String keyId;         //kid
 
     /**
-     * comon
+     * common
      */
     private Boolean isProduction = false;    //是否是生产环境
     private OkHttpClient.Builder builder;  //builder
@@ -136,7 +136,7 @@ public class ApnsClientBuilder {
         if (certificate != null) {
             if (isAsynchronous) {//异步请求
                 return new AsyOkHttpApnsClient(certificate, password, defaultTopic, isProduction, builder);
-            } else {//异步请求
+            } else {
                 return new SyncOkHttpApnsClient(certificate, password, defaultTopic, isProduction, builder);
             }
         } else if (apnsAuthKey != null && teamId != null && keyId != null) {

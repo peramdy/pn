@@ -1,4 +1,4 @@
-package com.peramdy.utils;
+package com.peramdy.net.utils;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
