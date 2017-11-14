@@ -1,8 +1,6 @@
 package com.peramdy.net.model;
 
 import com.peramdy.net.utils.Constants;
-import org.apache.commons.lang3.StringUtils;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -21,13 +19,28 @@ public class Payload {
         this.payload = new JSONObject();
     }
 
+    public JSONObject getPayload() {
+        return this.payload;
+    }
 
-    public void addCustomDictionary(final String name, final Object value) throws JSONException {
+    public void addCustomDictionary(final String name, final String value) throws Exception {
+        put(name, value, payload, false);
+    }
+
+    public void addCustomDictionary(final String name, final int value) throws Exception {
         put(name, value, payload, false);
     }
 
 
-    void put(String propertyName, Object propertyValue, JSONObject object, boolean opt) {
+    protected void put(String propertyName, Object propertyValue, JSONObject object, boolean opt) throws Exception {
+
+        int maximumPayloadSize = getMaximumPayloadSize();
+        int estimatedPayloadSize = estimatePayloadSizeAfterAdding(propertyName, propertyValue);
+        boolean isExceed = estimatedPayloadSize > maximumPayloadSize;
+
+        if (isExceed) {
+            throw new Exception();
+        }
 
         if (opt) {
             object.putOpt(propertyName, propertyValue);
@@ -35,6 +48,23 @@ public class Payload {
             object.put(propertyName, propertyValue);
         }
 
+    }
+
+
+    private int estimatePayloadSizeAfterAdding(String propertyName, Object propertyValue) throws Exception {
+
+        int currentPayloadSize = getPayloadSize();
+        int estimatedSize = currentPayloadSize;
+        if (propertyName != null && propertyValue != null) {
+            estimatedSize += 6;//,"":""
+            estimatedSize += propertyName.getBytes(Constants.DEFAULT_CHARACTER_ENCODING).length;
+            int estimatedValueSize = 0;
+            if (propertyValue instanceof String || propertyValue instanceof Number) {
+                estimatedValueSize = propertyValue.toString().getBytes(Constants.DEFAULT_CHARACTER_ENCODING).length;
+            }
+            estimatedSize += estimatedValueSize;
+        }
+        return estimatedSize;
     }
 
 
@@ -47,7 +77,7 @@ public class Payload {
     }
 
 
-    private byte[] getPayloadAsBytes() throws Exception {
+    public byte[] getPayloadAsBytes() throws Exception {
         if (toString() == null) {
             return null;
         }
@@ -60,5 +90,18 @@ public class Payload {
             return 0;
         }
         return getPayloadAsBytes().length;
+    }
+
+    public int getMaximumPayloadSize() {
+        return Integer.MAX_VALUE;
+    }
+
+
+    public int getExpiry() {
+        return expiry;
+    }
+
+    public void setExpiry(int expiry) {
+        this.expiry = expiry;
     }
 }

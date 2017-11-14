@@ -22,6 +22,7 @@ public class Constants {
 
     public static final String DEFAULT_CHARACTER_ENCODING = "UTF-8";
 
+    public static final Integer MAXIMUM_PAYLOAD_LENGTH = 256;
 
 
 }
