@@ -8,9 +8,11 @@ import com.peramdy.net.server.ConnectionToNotificationServer;
 
 import javax.net.ssl.SSLSocket;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 /**
- * Created by peramdy on 2017/11/8.
+ * @author peramdy
+ * @date 2017/11/8.
  */
 public class PushNotificationManager {
 
@@ -41,11 +43,20 @@ public class PushNotificationManager {
         final byte[] bytes = getMessage(device.getToken(), payload, notification);
 
         if (getSslSocketTimeout() > 0) {
-            socket.setSoTimeout(getSslSocketTimeout());
+            this.socket.setSoTimeout(getSslSocketTimeout());
         }
 
+        try {
+            this.socket.getOutputStream().write(bytes);
+            this.socket.getOutputStream().flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
 
     }
+
+//    public void sent
 
 
     private byte[] getMessage(String deviceToken, Payload payload, PushedNotification message) throws Exception {

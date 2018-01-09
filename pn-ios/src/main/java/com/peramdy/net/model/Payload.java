@@ -4,7 +4,8 @@ import com.peramdy.net.utils.Constants;
 import org.json.JSONObject;
 
 /**
- * Created by peramdy on 2017/11/8.
+ * @author peramdy
+ * @date 2017/11/8
  */
 public class Payload {
 

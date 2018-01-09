@@ -3,9 +3,8 @@ package com.peramdy.net.model;
 import com.peramdy.net.device.Device;
 
 /**
- * Created by peramdy on 2017/11/10.
- *
  * @author peramdy
+ * @date 2017/11/10.
  */
 public class PushedNotification {
 

@@ -7,8 +7,6 @@ import org.json.JSONObject;
 import java.util.List;
 
 /**
- * Created by peramdy on 2017/11/9.
- *
  * @author peramdy
  * @date 2017/11/9.
  */

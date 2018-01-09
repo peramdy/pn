@@ -4,7 +4,8 @@ import com.peramdy.ios.comm.Response;
 import com.peramdy.ios.model.Notification;
 
 /**
- * Created by peramdy on 2017/7/18.
+ * @author peramdy
+ * @date 2017/7/18
  */
 public interface ApnsClient {
 
