@@ -238,7 +238,7 @@ public class FirebaseClientFactory {
          * @return
          */
         public FirebaseClient build() {
-            FirebaseClient firebaseClient = null;
+            FirebaseClient firebaseClient;
             if (StringUtils.isNotBlank(redisUrl) && redisPort > 0) {
                 firebaseClient = new SyncOkHttpClient(createBuilder(), authKey, createJedis());
             } else {
@@ -251,15 +251,13 @@ public class FirebaseClientFactory {
          * @return
          */
         public FirebaseClient buildQueue() {
-            FirebaseClient firebaseClient = null;
-
-            SubscribeListener listener = new SubscribeListener(createBuilder(), authKey);
+            FirebaseClient firebaseClient;
+            Jedis jedis = createJedis();
+            SubscribeListener listener = new SubscribeListener(createBuilder(), authKey, createJedis());
             String[] channels = {CommConstant.REDIS_CHANNEL_ANDROID_ONE};
-            SubscribeTask task = new SubscribeTask(createJedis(), listener, channels);
-
+            SubscribeTask task = new SubscribeTask(jedis, listener, channels);
             Thread t = new Thread(task);
             t.start();
-
 
             if (StringUtils.isNotBlank(redisUrl) && redisPort > 0) {
                 firebaseClient = new SyncOkHttpClient(createBuilder(), authKey, createJedis());

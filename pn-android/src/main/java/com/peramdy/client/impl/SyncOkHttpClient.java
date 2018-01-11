@@ -66,8 +66,9 @@ public class SyncOkHttpClient implements FirebaseClient {
 
     @Override
     public void pushByRedisQueue(Notification notification) {
-        String message = SerializationUtils.serializer(notification);
-        PublishMessage.publish(jedis, CommConstant.REDIS_CHANNEL_ANDROID_ONE, message);
+        byte[] bytes = SerializationUtils.serializer(notification);
+        PublishMessage.pub(jedis, CommConstant.REDIS_CHANNEL_ANDROID_ONE, new String(bytes));
+        System.out.println("publish success!");
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {

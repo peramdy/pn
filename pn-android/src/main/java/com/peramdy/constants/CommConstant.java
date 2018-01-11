@@ -22,4 +22,10 @@ public class CommConstant {
 
     public final static String REDIS_CHANNEL_ANDROID_ONE = "notification_android_one";
 
+    public final static String REDIS_CHANNEL_CLIENT_ID = "notification_android_10001";
+
+    public final static String REDIS_CHANNEL_SET = "notification_android_set";
+
+    public final static String REDIS_MSG_MAX_ID = "MSG_MAX_ID";
+
 }

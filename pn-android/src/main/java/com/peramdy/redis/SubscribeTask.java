@@ -56,6 +56,7 @@ public class SubscribeTask implements Runnable {
 
     @Override
     public void run() {
-        SubscribeMessage.subscribe(jedis, jedisPubSub, channels);
+//        SubscribeMessage.subscribe(jedis, jedisPubSub, channels);
+        SubscribeMessage.sub(jedis, jedisPubSub, channels);
     }
 }

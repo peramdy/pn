@@ -7,7 +7,6 @@ import com.dyuproject.protostuff.runtime.RuntimeSchema;
 import org.objenesis.Objenesis;
 import org.objenesis.ObjenesisStd;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -58,33 +57,27 @@ public class SerializationUtils {
      * @param <T>
      * @return
      */
-    public static <T> String serializer(T obj) {
+    public static <T> byte[] serializer(T obj) {
         Class<T> cls = (Class<T>) obj.getClass();
         LinkedBuffer linkedBuffer = LinkedBuffer.allocate(LinkedBuffer.DEFAULT_BUFFER_SIZE);
         Schema<T> schema = getSchema(cls);
         byte[] bytes = ProtostuffIOUtil.toByteArray(obj, schema, linkedBuffer);
-        String str = null;
-        try {
-            str = new String(bytes, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        return str;
+        return bytes;
     }
 
     /**
      * deserializer
      *
-     * @param strData
+     * @param data
      * @param cls
      * @param <T>
      * @return
      */
-    public static <T> T deserialize(String strData, Class<T> cls) {
+    public static <T> T deserialize(byte[] data, Class<T> cls) {
         try {
             T message = (T) objenesis.newInstance(cls);
             Schema<T> schema = getSchema(cls);
-            byte[] data = strData.getBytes("UTF-8");
+//            byte[] data = strData.getBytes("UTF-8");
             ProtostuffIOUtil.mergeFrom(data, message, schema);
             return message;
         } catch (Exception e) {
