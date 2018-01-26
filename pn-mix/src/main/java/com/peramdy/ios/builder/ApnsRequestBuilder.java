@@ -6,13 +6,17 @@ import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okio.BufferedSink;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
 /**
- * Created by peramdy on 2017/7/19.
+ * @author peramdy on 2017/7/19.
  */
 public class ApnsRequestBuilder {
+
+    private static Logger logger = LoggerFactory.getLogger(ApnsRequestBuilder.class);
 
     /**
      * MediaType
@@ -91,7 +95,9 @@ public class ApnsRequestBuilder {
      * @description 获取request信息
      */
     protected final Request getRequest(final Notification notification) {
-        if (notification == null) return null;
+        if (notification == null) {
+            return null;
+        }
 
         Request request = null;
 
@@ -99,7 +105,7 @@ public class ApnsRequestBuilder {
             Request.Builder rb = new Request.Builder();
             rb.url(gateWay + "/3/device/" + notification.getToken());
 
-            if (notification.getPayload() != null)
+            if (notification.getPayload() != null) {
                 rb.post(new RequestBody() {
                     @Override
                     public MediaType contentType() {
@@ -109,37 +115,45 @@ public class ApnsRequestBuilder {
                     @Override
                     public void writeTo(BufferedSink sink) {
                         try {
+                            logger.info("notification: " + notification.getPayload());
                             sink.writeUtf8(notification.getPayload());
-                            System.out.println(">>>>>-------info:-----------payload---------start----------<<<<<");
-                            System.out.println(">>>>>-------info:-----------"+notification.getPayload());
-                            System.out.println(">>>>>-------info:-----------payload---------end------------<<<<<");
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
                     }
                 });
+            }
 
             if (notification.getTopic() == null) {
                 rb.header("apns-topic", defaultTopic);
+                logger.info("apns-topic: " + defaultTopic);
             } else {
                 rb.header("apns-topic", notification.getTopic());
+                logger.info("apns-topic: " + notification.getTopic());
             }
 
-            if (notification.getCollapseId() != null)
+            if (notification.getCollapseId() != null) {
                 rb.header("apns-collapse-id", notification.getCollapseId());
+                logger.info("apns-collapse-id: " + notification.getCollapseId());
+            }
 
-            if (notification.getExpiration() > -1)
+            if (notification.getExpiration() > -1) {
                 rb.header("apns-expiration", String.valueOf(notification.getExpiration()));
+                logger.info("apns-expiration: " + notification.getExpiration());
+            }
 
-            if (notification.getUuid() != null)
+            if (notification.getUuid() != null) {
                 rb.header("apns-id", notification.getUuid().toString());
-
+                logger.info("apns-id: " + notification.getUuid());
+            }
 
             /*********token start************/
             if (teamId != null && apnsAuthKey != null && keyId != null) {
+                logger.info("teamId: " + teamId + ", apnsAuthKey: " + apnsAuthKey + ", keyId:" + keyId);
                 if (cachedJWTToken == null || System.currentTimeMillis() - lastJWTTokenTS > 55 * 60 * 1000) {
                     lastJWTTokenTS = System.currentTimeMillis();
                     cachedJWTToken = JWT.getToken(teamId, keyId, apnsAuthKey);
+                    logger.info("cachedJWTToken: " + cachedJWTToken);
                 }
                 rb.header("authorization", "bearer " + cachedJWTToken);
             }

@@ -1,38 +1,28 @@
 package com.peramdy;
 
-import junit.framework.Test;
+
+import com.peramdy.net.okhttp.OkHttpClient;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
-/**
- * Unit test for simple App.
- */
-public class AppTest 
-    extends TestCase
-{
-    /**
-     * Create the test case
-     *
-     * @param testName name of the test case
-     */
-    public AppTest( String testName )
-    {
-        super( testName );
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+
+public class AppTest extends TestCase {
+
+
+    public void testOne() {
+
+
+        try {
+            OkHttpClient okHttpClient = new OkHttpClient();
+            File file = new File("E:\\srca12306\\srca.cer");
+            InputStream in = new FileInputStream(file);
+            okHttpClient.run(in);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
-    /**
-     * @return the suite of tests being tested
-     */
-    public static Test suite()
-    {
-        return new TestSuite( AppTest.class );
-    }
-
-    /**
-     * Rigourous Test :-)
-     */
-    public void testApp()
-    {
-        assertTrue( true );
-    }
 }

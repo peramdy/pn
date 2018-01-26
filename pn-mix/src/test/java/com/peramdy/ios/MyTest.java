@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Created by peramdy on 2017/7/18.
+ * @author peramdy on 2017/7/18.
  */
 public class MyTest {
 
@@ -21,7 +21,8 @@ public class MyTest {
     public void testTwo() throws Exception {
 //        String token = "765803bd54428cb6849d708afb325ee6cac278736d090763e952d674b24c0d0b";
 //        InputStream in = new FileInputStream("D:\\program\\apns\\certification\\prod.p12");
-        String token = "99b2557dd6bb5149eb037daae23f18e95c4111e5aaeb25b77654a716a3c080b8";
+//        String token = "99b2557dd6bb5149eb037daae23f18e95c4111e5aaeb25b77654a716a3c080b8";
+        String token = "";
         InputStream in = new FileInputStream("D:\\abc.p12");
         ApnsClientBuilder builder = new ApnsClientBuilder(in, "123456", "com.SenseNow.app");
         builder.isProduction(false);
@@ -32,7 +33,6 @@ public class MyTest {
                 .badge(2)
                 .customField("type", 1111)
                 .build();
-        System.out.println(notification);
         apnsClient.push(notification);
 
     }

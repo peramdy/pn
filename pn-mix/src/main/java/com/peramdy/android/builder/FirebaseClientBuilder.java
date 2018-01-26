@@ -9,7 +9,7 @@ import okhttp3.OkHttpClient;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by peramdy on 2017/7/20.
+ * @author peramdy on 2017/7/20.
  */
 public class FirebaseClientBuilder {
 

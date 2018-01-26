@@ -1,7 +1,9 @@
 package com.peramdy.ios.comm;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 /**
- * Created by peramdy on 2017/7/20.
+ * @author peramdy on 2017/7/20.
  */
 public class Response {
 
@@ -35,11 +37,6 @@ public class Response {
 
     @Override
     public String toString() {
-        return "Response{" +
-                "httpCode=" + httpCode +
-                ", body='" + body + '\'' +
-                ", t=" + t +
-                ", status=" + status +
-                '}';
+        return ToStringBuilder.reflectionToString(this);
     }
 }

@@ -33,6 +33,8 @@ package com.peramdy.ios.model;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
@@ -42,6 +44,9 @@ import java.util.UUID;
  * An entity containing the payload and the token.
  */
 public class Notification {
+
+    private static Logger logger = LoggerFactory.getLogger(Notification.class);
+
     private final String payload;//消息如：{"aps":{"alert": {"title":"测试","body":"测试"},"badge":6,"sound": "default"}}
     private final String token;  //device-token
     private final String topic;  //app's topic,apns-topic
@@ -163,6 +168,7 @@ public class Notification {
         }
 
         public Builder mutableContent(boolean mutable) {
+            logger.info("mutableContent: " + mutable);
             if (mutable) {
                 aps.put("mutable-content", 1);
             } else {
@@ -177,6 +183,7 @@ public class Notification {
         }
 
         public Builder contentAvailable(boolean contentAvailable) {
+            logger.info("contentAvailable: " + contentAvailable);
             if (contentAvailable) {
                 aps.put("content-available", 1);
             } else {
@@ -192,20 +199,22 @@ public class Notification {
         }
 
         public Builder alertBody(String body) {
+            logger.info("body: " + body);
             alert.put("body", body);
             return this;
         }
 
         public Builder alertTitle(String title) {
             alert.put("title", title);
+            logger.info("title: " + title);
             return this;
         }
 
         public Builder sound(String sound) {
+            logger.info("sound: " + sound);
             if (sound != null) {
                 aps.put("sound", sound);
             } else {
-//                aps.remove("sound");
                 aps.put("sound", "default");
             }
 
@@ -213,6 +222,7 @@ public class Notification {
         }
 
         public Builder category(String category) {
+            logger.info("category: " + category);
             if (category != null) {
                 aps.put("category", category);
             } else {
@@ -222,36 +232,43 @@ public class Notification {
         }
 
         public Builder badge(int badge) {
+            logger.info("badge: " + badge);
             aps.put("badge", badge);
             return this;
         }
 
         public Builder customField(String key, Object value) {
+            logger.info("customField#key: " + key + ",#value: " + value);
             root.put(key, value);
             return this;
         }
 
         public Builder topic(String topic) {
+            logger.info("topic: " + topic);
             this.topic = topic;
             return this;
         }
 
         public Builder collapseId(String collapseId) {
+            logger.info("collapseId: " + collapseId);
             this.collapseId = collapseId;
             return this;
         }
 
         public Builder expiration(long expiration) {
+            logger.info("expiration: " + expiration);
             this.expiration = expiration;
             return this;
         }
 
         public Builder uuid(UUID uuid) {
+            logger.info("UUID: " + uuid);
             this.uuid = uuid;
             return this;
         }
 
         public Builder priority(Priority priority) {
+            logger.info("priority: " + priority);
             this.priority = priority;
             return this;
         }

@@ -6,7 +6,8 @@ import org.apache.commons.lang3.StringUtils;
 import java.sql.Timestamp;
 
 /**
- * Created by peramdy on 2017/11/10.
+ * @author peramdy
+ * @date 2017/11/10.
  */
 public class BasicDevice implements Device {
 
@@ -58,10 +59,12 @@ public class BasicDevice implements Device {
         this.token = token;
     }
 
+    @Override
     public void setLastRegister(Timestamp lastRegister) {
         this.lastRegister = lastRegister;
     }
 
+    @Override
     public Timestamp getLastRegister() {
         return lastRegister;
     }

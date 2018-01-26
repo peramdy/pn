@@ -1,18 +1,21 @@
 package com.peramdy.ios.builder;
 
 import com.peramdy.ios.okhttpClient.ApnsClient;
-import com.peramdy.ios.okhttpClient.impl.AsyOkHttpApnsClient;
 import com.peramdy.ios.okhttpClient.impl.SyncOkHttpApnsClient;
 import okhttp3.ConnectionPool;
 import okhttp3.OkHttpClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by peramdy on 2017/7/18.
+ * @author peramdy on 2017/7/18.
  */
 public class ApnsClientBuilder {
+
+    private static Logger logger = LoggerFactory.getLogger(ApnsClientBuilder.class);
 
     /**
      * certificate
@@ -33,7 +36,6 @@ public class ApnsClientBuilder {
     private Boolean isProduction = false;    //是否是生产环境
     private OkHttpClient.Builder builder;  //builder
     private ConnectionPool connectionPool; //链接数
-    private Boolean isAsynchronous = false;  //是否异步
     private String defaultTopic;
 
 
@@ -58,16 +60,6 @@ public class ApnsClientBuilder {
         this.defaultTopic = defaultTopic;
     }
 
-    /*public ApnsClientBuilder addCertificate(InputStream certificate) {
-        this.certificate = certificate;
-        return this;
-    }
-
-    public ApnsClientBuilder addPassword(String password) {
-        this.password = password;
-        return this;
-    }*/
-
 
     /**
      * constructor for jwtToken
@@ -78,20 +70,7 @@ public class ApnsClientBuilder {
         this.keyId = keyId;
         this.defaultTopic = defaultTopic;
     }
-    /*public ApnsClientBuilder addApnsAuthKey(String apnsAuthKey) {
-        this.apnsAuthKey = apnsAuthKey;
-        return this;
-    }
 
-    public ApnsClientBuilder addTeamId(String teamId) {
-        this.teamId = teamId;
-        return this;
-    }
-
-    public ApnsClientBuilder addKeyId(String keyId) {
-        this.keyId = keyId;
-        return this;
-    }*/
 
     /**
      * common
@@ -110,10 +89,6 @@ public class ApnsClientBuilder {
         return this;
     }
 
-    public ApnsClientBuilder isAsynchronous(boolean isAsynchronous) {
-        this.isAsynchronous = isAsynchronous;
-        return this;
-    }
 
     public ApnsClientBuilder addBuilder(OkHttpClient.Builder builder) {
         this.builder = builder;
@@ -134,17 +109,11 @@ public class ApnsClientBuilder {
         }
 
         if (certificate != null) {
-            if (isAsynchronous) {//异步请求
-                return new AsyOkHttpApnsClient(certificate, password, defaultTopic, isProduction, builder);
-            } else {
-                return new SyncOkHttpApnsClient(certificate, password, defaultTopic, isProduction, builder);
-            }
+            logger.info("create apnsClient by certificate !");
+            return new SyncOkHttpApnsClient(certificate, password, defaultTopic, isProduction, builder);
         } else if (apnsAuthKey != null && teamId != null && keyId != null) {
-            if (isAsynchronous) {//异步请求
-                return new AsyOkHttpApnsClient(apnsAuthKey, teamId, keyId, defaultTopic, isProduction, builder);
-            } else {//异步请求
-                return new SyncOkHttpApnsClient(apnsAuthKey, teamId, keyId, defaultTopic, isProduction, builder);
-            }
+            logger.info("create apnsClient by token !");
+            return new SyncOkHttpApnsClient(apnsAuthKey, teamId, keyId, defaultTopic, isProduction, builder);
         }
         return null;
     }

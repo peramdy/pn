@@ -8,6 +8,8 @@ import com.peramdy.ios.okhttpClient.ApnsClient;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.net.ssl.*;
 import java.io.IOException;
@@ -21,6 +23,8 @@ import java.util.Arrays;
  */
 public class SyncOkHttpApnsClient implements ApnsClient {
 
+
+    private static Logger logger = LoggerFactory.getLogger(SyncOkHttpApnsClient.class);
 
     /**
      * httpClient
@@ -147,6 +151,7 @@ public class SyncOkHttpApnsClient implements ApnsClient {
      * @return
      */
     public com.peramdy.ios.comm.Response push(final Notification notification) {
+        logger.info(notification.toString());
         Response response = null;
         com.peramdy.ios.comm.Response myResponse = null;
         ApnsRequestBuilder apnsRequestBuilder = new ApnsRequestBuilder(apnsAuthKey, teamId, keyId, gateway, defaultTopic);
@@ -154,6 +159,7 @@ public class SyncOkHttpApnsClient implements ApnsClient {
         try {
 
             response = client.newCall(request).execute();
+            logger.info("httpStatus: " + response.code());
             myResponse = parseResponse(response);
             parseResponse(response);
         } catch (IOException e) {
@@ -164,15 +170,22 @@ public class SyncOkHttpApnsClient implements ApnsClient {
     }
 
 
+    /**
+     * parseResponse
+     *
+     * @param response
+     * @return
+     */
     protected com.peramdy.ios.comm.Response parseResponse(Response response) {
         String contentBody = null;
-        int statusCode = 0;
-        HttpCode status = null;
+        int statusCode;
+        HttpCode status;
         try {
             statusCode = response.code();
             status = HttpCode.getHttpCode(statusCode);
-            if (statusCode != 200)
+            if (statusCode != HttpCode.OK.getCode()) {
                 contentBody = response.body() != null ? response.body().toString() : null;
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return new com.peramdy.ios.comm.Response(-1, null, e, HttpCode.getHttpCode(-1));

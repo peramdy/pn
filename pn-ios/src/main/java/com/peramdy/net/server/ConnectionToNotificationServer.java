@@ -3,7 +3,7 @@ package com.peramdy.net.server;
 import com.peramdy.net.ConnectionToServer;
 
 /**
- * Created by peramdy on 2017/11/8.
+ * @author peramdy on 2017/11/8.
  */
 public class ConnectionToNotificationServer extends ConnectionToServer {
 

@@ -2,6 +2,7 @@ package com.peramdy;
 
 import com.peramdy.net.PushNotificationManager;
 import com.peramdy.net.model.NotificationPayload;
+import com.peramdy.net.model.NotificationPayload2;
 import com.peramdy.net.server.impl.AppleNotificationServerBasicImpl;
 import junit.framework.TestCase;
 
@@ -43,6 +44,17 @@ public class NotificationPayloadTest extends TestCase {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+
+    public void testFive() throws Exception {
+        NotificationPayload2 notification = new NotificationPayload2.Builder()
+                .addCustomDictionary("dssd", 111)
+                .alertBody("fsfsfsf")
+                .apsBadge(1)
+                .build();
+
+        System.out.println(notification.getPayload());
     }
 
 }
